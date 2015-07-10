@@ -1,0 +1,4 @@
+ofxGui
+ofxGuiHost
+ofxNetwork
+ofxLibwebsockets
