@@ -1,7 +1,7 @@
 #include "ofMain.h"
 #include "ofxGui.h"
-#include "ofxGuiHost.h"
-#include "ofxLibwebsockets.h"
+#include "ofxUIJquery.h"
+//#include "ofxLibwebsockets.h"
 
 class ofApp : public ofBaseApp {
 	public:
@@ -16,25 +16,14 @@ class ofApp : public ofBaseApp {
             ofParameter<bool> hidedebug;
             ofParameter<bool> disablelight;
             ofParameter<string> fps;
-            ofxGuiHost host;
+            ofxUIJquery host;
 
             int w,h;
             int PORT = 80;
-            bool bSetup;
-            ofxLibwebsockets::Server server;
-            string sock_value;
 
     		void setup();
             void update();
             void draw();
             void exit();
             void keyPressed(int key);
-
-            void onConnect( ofxLibwebsockets::Event& args );
-            void onOpen( ofxLibwebsockets::Event& args );
-            void onClose( ofxLibwebsockets::Event& args );
-            void onIdle( ofxLibwebsockets::Event& args );
-            void onMessage( ofxLibwebsockets::Event& args );
-            void onBroadcast( ofxLibwebsockets::Event& args );
-
 };

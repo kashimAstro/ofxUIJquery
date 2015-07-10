@@ -5,9 +5,8 @@ ofLight spotLight;
 ofLight directionalLight;
 ofMaterial material;
 
-
 void ofApp::setup(){
-    //ofSetLogLevel(OF_LOG_SILENT);
+    ofSetLogLevel(OF_LOG_SILENT);
 
     ofSetFrameRate(50);
     w=ofGetWidth();
@@ -40,13 +39,6 @@ void ofApp::setup(){
            rp[i].set( ofRandom(-150, 150), ofRandom(-150, 150), ofRandom(-150, 150) );
            rc[i].set( ofRandom(0., 1.), ofRandom(0., 1.), ofRandom(0., 1.));
     }
-    //host.start();
-    ofxLibwebsockets::ServerOptions options = ofxLibwebsockets::defaultServerOptions();
-    options.port = host.getPort();
-    options.bUseSSL = false;
-    server.addListener(this);
-    bSetup = server.setup( options );
-
     ofSetSmoothLighting(true);
     pointLight.setDiffuseColor( ofColor(0.f, 255.f, 0.f));
     pointLight.setSpecularColor( ofColor(255.f, 255.f, 0.f));
@@ -66,37 +58,7 @@ void ofApp::setup(){
 }
 
 void ofApp::exit(){
-	//host.stop();
-}
 
-void ofApp::onConnect( ofxLibwebsockets::Event& args ){
-    cout<<"on connected"<<endl;
-}
-
-void ofApp::onOpen( ofxLibwebsockets::Event& args ){
-    cout<<"new connection open"<<endl;
-    sock_value = args.conn.getClientIP() + " - " + args.conn.getClientName();
-}
-
-void ofApp::onClose( ofxLibwebsockets::Event& args ){
-    cout<<"on close"<<endl;
-}
-
-void ofApp::onIdle( ofxLibwebsockets::Event& args ){
-    cout<<"on idle"<<endl;
-}
-
-void ofApp::onMessage( ofxLibwebsockets::Event& args ){
-    if ( !args.json.isNull() ){
-        sock_value = args.json.toStyledString();
-    } else {
-        sock_value = args.message;
-    }
-    host.response(sock_value);
-}
-
-void ofApp::onBroadcast( ofxLibwebsockets::Event& args ){
-    cout<<"got broadcast "<<args.message<<endl;
 }
 
 void ofApp::update(){
@@ -119,15 +81,18 @@ void ofApp::draw(){
         ofRotate(ofGetFrameNum()%1500);
         for (int i=0; i<rp.size(); i++) {
                ofSetColor(rc[i]);
+
                if(dis.get().x>50){
-                    ofRotateY(ofGetFrameNum()%1500);
+                    ofRotateY(ofGetFrameNum()%150);
                     ofDrawSphere( rp[i].x+camerap.get().x, rp[i].y+camerap.get().y, rp[i].z+camerap.get().z, 40 );
                }
-               ofDrawBox( rp[i].x+camerap.get().x, rp[i].y+camerap.get().y, rp[i].z+camerap.get().z, 40 );
+
                if(dis.get().y<50){
-                    ofRotateZ(ofGetFrameNum()%1100);
+                    ofRotateZ(ofGetFrameNum()%110);
                     ofDrawCone( rp[i].x+camerap.get().x, rp[i].y+camerap.get().y, rp[i].z+camerap.get().z, 10, 100 );
                }
+
+               ofDrawBox( rp[i].x+camerap.get().x*dis.get().x, rp[i].y+camerap.get().y*dis.get().y, rp[i].z+camerap.get().z, 40 );
         }
         if(disablelight){
             pointLight.disable();
@@ -139,7 +104,7 @@ void ofApp::draw(){
 
         ofDisableDepthTest();
     camera.end();
-    ofDrawBitmapStringHighlight(sock_value,20,40,ofColor(255,0,0),ofColor(45));
+    ofDrawBitmapStringHighlight(host.getResult(),20,40,ofColor(255,0,0),ofColor(45));
     gui.draw();
 }
 
