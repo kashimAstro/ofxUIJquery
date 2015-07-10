@@ -47,37 +47,37 @@ string ofxUIJquery::setStyle(STYLE TYPE) {
     string css="jquery-ui-1.10.3.custom.min.css";
     switch(TYPE){
     case BLITZER:
-        path=ofToDataPath("../../../../ofxGuiHost/src/jquery/themes/blitzer/"+css);;
+        path=ofToDataPath("../../../../ofxUIJquery/src/jquery/themes/blitzer/"+css);;
         break;
     case CUPERTINO:
-        path=ofToDataPath("../../../../ofxGuiHost/src/jquery/themes/cupertino/"+css);;
+        path=ofToDataPath("../../../../ofxUIJquery/src/jquery/themes/cupertino/"+css);;
         break;
     case DARK_HIVE:
-        path=ofToDataPath("../../../../ofxGuiHost/src/jquery/themes/dark_hive/"+css);;
+        path=ofToDataPath("../../../../ofxUIJquery/src/jquery/themes/dark_hive/"+css);;
         break;
     case FLICK:
-        path=ofToDataPath("../../../../ofxGuiHost/src/jquery/themes/flick/"+css);;
+        path=ofToDataPath("../../../../ofxUIJquery/src/jquery/themes/flick/"+css);;
         break;
     case LEFROG:
-        path=ofToDataPath("../../../../ofxGuiHost/src/jquery/themes/lefrog/"+css);;
+        path=ofToDataPath("../../../../ofxUIJquery/src/jquery/themes/lefrog/"+css);;
         break;
     case OVERCATS:
-        path=ofToDataPath("../../../../ofxGuiHost/src/jquery/themes/overcats/"+css);;
+        path=ofToDataPath("../../../../ofxUIJquery/src/jquery/themes/overcats/"+css);;
         break;
     case SMOOTHESS:
-        path=ofToDataPath("../../../../ofxGuiHost/src/jquery/themes/smoothess/"+css);;
+        path=ofToDataPath("../../../../ofxUIJquery/src/jquery/themes/smoothess/"+css);;
         break;
     case SUNNY:
-        path=ofToDataPath("../../../../ofxGuiHost/src/jquery/themes/sunny/"+css);;
+        path=ofToDataPath("../../../../ofxUIJquery/src/jquery/themes/sunny/"+css);;
         break;
     case VADER:
-        path=ofToDataPath("../../../../ofxGuiHost/src/jquery/themes/vader/"+css);;
+        path=ofToDataPath("../../../../ofxUIJquery/src/jquery/themes/vader/"+css);;
         break;
     case REDMOND:
-        path=ofToDataPath("../../../../ofxGuiHost/src/jquery/themes/redmond/"+css);;
+        path=ofToDataPath("../../../../ofxUIJquery/src/jquery/themes/redmond/"+css);;
         break;
     default:
-        path=ofToDataPath("../../../../ofxGuiHost/src/jquery/jquery-ui.min.css");
+        path=ofToDataPath("../../../../ofxUIJquery/src/jquery/jquery-ui.min.css");
         break;
     }
     return path;
@@ -90,11 +90,15 @@ void ofxUIJquery::setup(int port, ofPoint bg, STYLE TYPE) {
     TCP.setup(port);
     TCP.setMessageDelimiter("</html>");
 
+    /* recevede websocket */
+    //TCPclient.setup(PORT_CLIENT);
+    //TCPclient.setMessageDelimiter("\n");
     ofxLibwebsockets::ServerOptions options = ofxLibwebsockets::defaultServerOptions();
     options.port = getPort();
     options.bUseSSL = false;
     server.addListener(this);
     bSetup = server.setup( options );
+
 
     header+="HTTP/1.0 200 OK\n";
     header+="Server: Apache/1.3.29 (Unix) PHP/4.3.4\n";
@@ -102,7 +106,7 @@ void ofxUIJquery::setup(int port, ofPoint bg, STYLE TYPE) {
     header+="Cache-Control: private, s-maxage=0, max-age=0, must-revalidate\n";
     header+="Content-Language: en\n";
     header+="Content-Type: text/html; charset=utf-8\n";
-    header+="X-Cache: HIT from www.ofxUIJquery.cc\n";
+    header+="X-Cache: HIT from ofxGUIHost.x\n";
     header+="Connection: close\n";
 
     stringstream CSSbuffer;
@@ -111,22 +115,22 @@ void ofxUIJquery::setup(int port, ofPoint bg, STYLE TYPE) {
         CSSbuffer << CSSfile.rdbuf();
     }
     stringstream jQuerybuffer;
-    ifstream jQfile(ofToDataPath("../../../../ofxGuiHost/src/jquery/external/jquery/jquery.js").c_str());
+    ifstream jQfile(ofToDataPath("../../../../ofxUIJquery/src/jquery/external/jquery/jquery.js").c_str());
     if(jQfile.is_open()) {
         jQuerybuffer << jQfile.rdbuf();
     }
     stringstream JUIbuffer;
-    ifstream UIfile(ofToDataPath("../../../../ofxGuiHost/src/jquery/jquery-ui.min.js").c_str());
+    ifstream UIfile(ofToDataPath("../../../../ofxUIJquery/src/jquery/jquery-ui.min.js").c_str());
     if(UIfile.is_open()) {
         JUIbuffer << UIfile.rdbuf();
     }
     stringstream JSONbuffer;
-    ifstream JSONfile(ofToDataPath("../../../../ofxGuiHost/src/jquery/jquery.json-2.2.min.js").c_str());
+    ifstream JSONfile(ofToDataPath("../../../../ofxUIJquery/src/jquery/jquery.json-2.2.min.js").c_str());
     if(JSONfile.is_open()) {
         JSONbuffer << JSONfile.rdbuf();
     }
     stringstream WEBSbuffer;
-    ifstream WEBSfile(ofToDataPath("../../../../ofxGuiHost/src/jquery/simplewebscoket.js").c_str());
+    ifstream WEBSfile(ofToDataPath("../../../../ofxUIJquery/src/jquery/simplewebscoket.js").c_str());
     if(WEBSfile.is_open()) {
         WEBSbuffer << WEBSfile.rdbuf();
     }
@@ -135,7 +139,7 @@ void ofxUIJquery::setup(int port, ofPoint bg, STYLE TYPE) {
     buffer+="<style>";
     buffer+=CSSbuffer.str();
     buffer+="* { font-family: \"Arial Verdana\", Arial, Verdana; }";
-    buffer+=".d_div { padding:25px; border-radius: 25px; box-shadow: 10px 10px 5px #888888; }";
+    buffer+=".d_div { padding:25px; border-radius: 25px; }";
     buffer+="</style>";
     buffer+="<script>";
     buffer+=jQuerybuffer.str();
@@ -251,7 +255,15 @@ string ofxUIJquery::response(string value) {
 
 void ofxUIJquery::threadedFunction() {
     while(isThreadRunning()) {
-
+        /*for(int i = 0; i < TCPclient.getLastID(); i++) {
+            if( TCPclient.isClientConnected(i)) {
+                string str = TCPclient.receive(i);
+                if(str != ""){
+                    Response=str;
+                    ofLog()<<Response;
+                }
+            }
+        }*/
     }
 }
 
