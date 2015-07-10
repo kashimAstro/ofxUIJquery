@@ -1,7 +1,6 @@
 #include "ofMain.h"
 #include "ofxGui.h"
 #include "ofxUIJquery.h"
-//#include "ofxLibwebsockets.h"
 
 class ofApp : public ofBaseApp {
 	public:
@@ -17,6 +16,11 @@ class ofApp : public ofBaseApp {
             ofParameter<bool> disablelight;
             ofParameter<string> fps;
             ofxUIJquery host;
+
+            ofLight pointLight;
+            ofLight spotLight;
+            ofLight directionalLight;
+            ofMaterial material;
 
             int w,h;
             int PORT = 80;

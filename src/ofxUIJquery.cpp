@@ -90,15 +90,11 @@ void ofxUIJquery::setup(int port, ofPoint bg, STYLE TYPE) {
     TCP.setup(port);
     TCP.setMessageDelimiter("</html>");
 
-    /* recevede websocket */
-    //TCPclient.setup(PORT_CLIENT);
-    //TCPclient.setMessageDelimiter("\n");
     ofxLibwebsockets::ServerOptions options = ofxLibwebsockets::defaultServerOptions();
     options.port = getPort();
     options.bUseSSL = false;
     server.addListener(this);
     bSetup = server.setup( options );
-
 
     header+="HTTP/1.0 200 OK\n";
     header+="Server: Apache/1.3.29 (Unix) PHP/4.3.4\n";
@@ -106,7 +102,7 @@ void ofxUIJquery::setup(int port, ofPoint bg, STYLE TYPE) {
     header+="Cache-Control: private, s-maxage=0, max-age=0, must-revalidate\n";
     header+="Content-Language: en\n";
     header+="Content-Type: text/html; charset=utf-8\n";
-    header+="X-Cache: HIT from ofxGUIHost.x\n";
+    header+="X-Cache: HIT from www.ofxUIJquery.cc\n";
     header+="Connection: close\n";
 
     stringstream CSSbuffer;
@@ -139,7 +135,7 @@ void ofxUIJquery::setup(int port, ofPoint bg, STYLE TYPE) {
     buffer+="<style>";
     buffer+=CSSbuffer.str();
     buffer+="* { font-family: \"Arial Verdana\", Arial, Verdana; }";
-    buffer+=".d_div { padding:25px; border-radius: 25px; }";
+    buffer+=".d_div { padding:25px; border-radius: 25px; box-shadow: 10px 10px 5px #888888; }";
     buffer+="</style>";
     buffer+="<script>";
     buffer+=jQuerybuffer.str();
@@ -255,15 +251,7 @@ string ofxUIJquery::response(string value) {
 
 void ofxUIJquery::threadedFunction() {
     while(isThreadRunning()) {
-        /*for(int i = 0; i < TCPclient.getLastID(); i++) {
-            if( TCPclient.isClientConnected(i)) {
-                string str = TCPclient.receive(i);
-                if(str != ""){
-                    Response=str;
-                    ofLog()<<Response;
-                }
-            }
-        }*/
+
     }
 }
 

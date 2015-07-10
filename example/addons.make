@@ -1,4 +1,4 @@
 ofxGui
-ofxGuiHost
+ofxUIJquery
 ofxNetwork
 ofxLibwebsockets

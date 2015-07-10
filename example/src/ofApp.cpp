@@ -1,10 +1,5 @@
 #include "ofApp.h"
 
-ofLight pointLight;
-ofLight spotLight;
-ofLight directionalLight;
-ofMaterial material;
-
 void ofApp::setup(){
     ofSetLogLevel(OF_LOG_SILENT);
 
