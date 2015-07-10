@@ -8,3 +8,8 @@ Dependencies:
 https://github.com/labatrockwell/ofxLibwebsockets
 
 Still under construction, there are a lot of bugs!
+
+video:
+https://www.youtube.com/watch?v=Kb7UOyNLqBQ
+
+![alt tag](https://github.com/kashimAstro/ofxUIJquery/blob/master/1.png)
