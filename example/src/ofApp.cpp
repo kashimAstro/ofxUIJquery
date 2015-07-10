@@ -65,39 +65,38 @@ void ofApp::update(){
 void ofApp::draw(){
     ofBackgroundGradient(255,ofColor(dark));
     camera.begin();
-        ofEnableDepthTest();
-        ofEnableLighting();
-        material.begin();
-        if(disablelight) {
-            pointLight.enable();
-            spotLight.enable();
-            directionalLight.enable();
-        }
-        ofRotate(ofGetFrameNum()%1500);
-        for (int i=0; i<rp.size(); i++) {
-               ofSetColor(rc[i]);
+    ofEnableDepthTest();
+    ofEnableLighting();
+    material.begin();
+    if(disablelight) {
+        pointLight.enable();
+        spotLight.enable();
+        directionalLight.enable();
+    }
+    ofRotate(ofGetFrameNum()%1500);
+    for (int i=0; i<rp.size(); i++) {
+           ofSetColor(rc[i]);
 
-               if(dis.get().x>50){
-                    ofRotateY(ofGetFrameNum()%150);
-                    ofDrawSphere( rp[i].x+camerap.get().x, rp[i].y+camerap.get().y, rp[i].z+camerap.get().z, 40 );
-               }
+           if(dis.get().x>50){
+                ofRotateY(ofGetFrameNum()%150);
+                ofDrawSphere( rp[i].x+camerap.get().x, rp[i].y+camerap.get().y, rp[i].z+camerap.get().z, 40 );
+           }
 
-               if(dis.get().y<50){
-                    ofRotateZ(ofGetFrameNum()%110);
-                    ofDrawCone( rp[i].x+camerap.get().x, rp[i].y+camerap.get().y, rp[i].z+camerap.get().z, 10, 100 );
-               }
+           if(dis.get().y<50){
+                ofRotateZ(ofGetFrameNum()%110);
+                ofDrawCone( rp[i].x+camerap.get().x, rp[i].y+camerap.get().y, rp[i].z+camerap.get().z, 10, 100 );
+           }
 
-               ofDrawBox( rp[i].x+camerap.get().x*dis.get().x, rp[i].y+camerap.get().y*dis.get().y, rp[i].z+camerap.get().z, 40 );
-        }
-        if(disablelight){
-            pointLight.disable();
-            spotLight.disable();
-            directionalLight.disable();
-        }
-        material.end();
-        ofDisableLighting();
-
-        ofDisableDepthTest();
+           ofDrawBox( rp[i].x+camerap.get().x*dis.get().x, rp[i].y+camerap.get().y*dis.get().y, rp[i].z+camerap.get().z, 40 );
+    }
+    if(disablelight){
+        pointLight.disable();
+        spotLight.disable();
+        directionalLight.disable();
+    }
+    material.end();
+    ofDisableLighting();
+    ofDisableDepthTest();
     camera.end();
     ofDrawBitmapStringHighlight(host.getResult(),20,40,ofColor(255,0,0),ofColor(45));
     gui.draw();

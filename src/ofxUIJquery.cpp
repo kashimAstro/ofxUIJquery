@@ -106,7 +106,7 @@ void ofxUIJquery::setup(int port, ofPoint bg, STYLE TYPE) {
     header+="Cache-Control: private, s-maxage=0, max-age=0, must-revalidate\n";
     header+="Content-Language: en\n";
     header+="Content-Type: text/html; charset=utf-8\n";
-    header+="X-Cache: HIT from ofxGUIHost.x\n";
+    header+="X-Cache: HIT from www.ofxUIJquery.x\n";
     header+="Connection: close\n";
 
     stringstream CSSbuffer;
@@ -139,7 +139,7 @@ void ofxUIJquery::setup(int port, ofPoint bg, STYLE TYPE) {
     buffer+="<style>";
     buffer+=CSSbuffer.str();
     buffer+="* { font-family: \"Arial Verdana\", Arial, Verdana; }";
-    buffer+=".d_div { padding:25px; border-radius: 25px; }";
+    buffer+=".d_div { padding:25px; border-radius: 25px; box-shadow: 5px 5px 5px #888888; }";
     buffer+="</style>";
     buffer+="<script>";
     buffer+=jQuerybuffer.str();
