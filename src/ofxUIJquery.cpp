@@ -9,20 +9,20 @@ ofxUIJquery::~ofxUIJquery(){
 }
 
 void ofxUIJquery::onConnect( ofxLibwebsockets::Event& args ){
-    cout<<"on connected"<<endl;
+    ofLog()<<"on connected";
 }
 
 void ofxUIJquery::onOpen( ofxLibwebsockets::Event& args ){
-    cout<<"new connection open"<<endl;
+    ofLog()<<"new connection open";
     sock_value = args.conn.getClientIP() + " - " + args.conn.getClientName();
 }
 
 void ofxUIJquery::onClose( ofxLibwebsockets::Event& args ){
-    cout<<"on close"<<endl;
+    ofLog()<<"on close";
 }
 
 void ofxUIJquery::onIdle( ofxLibwebsockets::Event& args ){
-    cout<<"on idle"<<endl;
+    ofLog()<<"on idle";
 }
 
 void ofxUIJquery::onMessage( ofxLibwebsockets::Event& args ){
@@ -35,7 +35,7 @@ void ofxUIJquery::onMessage( ofxLibwebsockets::Event& args ){
 }
 
 void ofxUIJquery::onBroadcast( ofxLibwebsockets::Event& args ){
-    cout<<"got broadcast "<<args.message<<endl;
+    ofLog()<<"got broadcast "<<args.message;
 }
 
 string ofxUIJquery::getResult(){
@@ -83,16 +83,13 @@ string ofxUIJquery::setStyle(STYLE TYPE) {
     return path;
 }
 
-void ofxUIJquery::setup(int port, ofPoint bg, STYLE TYPE) {
-    LOCAL_IP_ADDRESS="127.0.0.1";
+void ofxUIJquery::setup(string ADRESS, int port, ofPoint bg, STYLE TYPE) {
+    LOCAL_IP_ADDRESS=ADRESS;
     PORT_CLIENT=9092;
 
     TCP.setup(port);
     TCP.setMessageDelimiter("</html>");
 
-    /* recevede websocket */
-    //TCPclient.setup(PORT_CLIENT);
-    //TCPclient.setMessageDelimiter("\n");
     ofxLibwebsockets::ServerOptions options = ofxLibwebsockets::defaultServerOptions();
     options.port = getPort();
     options.bUseSSL = false;
@@ -139,6 +136,9 @@ void ofxUIJquery::setup(int port, ofPoint bg, STYLE TYPE) {
     buffer+=CSSbuffer.str();
     buffer+="* { font-family: \"Arial Verdana\", Arial, Verdana; }";
     buffer+=".d_div { padding:25px; border-radius: 5px; box-shadow: 5px 5px 5px #888888; }";
+    buffer+="input { height:40px;border-bottom-color: #b3b3b3;border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;border-bottom-style: solid;";
+    buffer+="border-bottom-width: 1px;border-left-color: #b3b3b3;border-left-style: solid;border-left-width: 1px;border-right-color: #b3b3b3;border-right-style: solid;";
+    buffer+="border-right-width: 1px;border-top-color: #b3b3b3;border-top-left-radius: 3px;border-top-right-radius: 3px;border-top-style: solid;border-top-width: 1px; }";
     buffer+="</style>";
     buffer+="<script>";
     buffer+=jQuerybuffer.str();
@@ -238,15 +238,19 @@ string ofxUIJquery::response(string value) {
         /* vec4 */
         if(token=="XUIVec4"){
             ofLog()<<"XUIVec4 detect!";
+            vec4Param->set(ofVec4f(ofToInt(tvalue),vec4Param->get().y,vec4Param->get().z,vec4Param->get().w));
         }
         if(token=="YUIVec4"){
             ofLog()<<"YUIVec4 detect!";
+            vec4Param->set(ofVec4f(vec4Param->get().x,ofToInt(tvalue),vec4Param->get().z,vec4Param->get().w));
         }
         if(token=="ZUIVec4"){
             ofLog()<<"ZUIVec4 detect!";
+            vec4Param->set(ofVec4f(vec4Param->get().x,vec4Param->get().y,ofToInt(tvalue),vec4Param->get().w));
         }
         if(token=="WUIVec4"){
             ofLog()<<"WUIVec4 detect!";
+            vec4Param->set(ofVec4f(vec4Param->get().x,vec4Param->get().y,vec4Param->get().z,ofToInt(tvalue)));
         }
     }
     return Response;
@@ -254,15 +258,7 @@ string ofxUIJquery::response(string value) {
 
 void ofxUIJquery::threadedFunction() {
     while(isThreadRunning()) {
-        /*for(int i = 0; i < TCPclient.getLastID(); i++) {
-            if( TCPclient.isClientConnected(i)) {
-                string str = TCPclient.receive(i);
-                if(str != ""){
-                    Response=str;
-                    ofLog()<<Response;
-                }
-            }
-        }*/
+
     }
 }
 
@@ -278,7 +274,7 @@ void ofxUIJquery::update(){
     for(int i = 0; i < TCP.getLastID(); i++) {
         if( TCP.isClientConnected(i) && request == true) {
             TCP.send(i, buffer);
-            cout<<buffer;
+            ofLog()<<buffer;
             ofLog()<<"CLOSE SOCKET BUFFER!\n\n\n";
             request=false;
             TCP.close();
@@ -305,7 +301,7 @@ void ofxUIJquery::setParameterString(ofParameter<string> &p, ofPoint bg, ofPoint
     stringParam=&p;
     buffer+="<br><div class=\"d_div\" style=\"margin-left:10px;margin-top:10px;background:rgb("+ofToString(bg.x)+","+ofToString(bg.y)+","+ofToString(bg.z)+");padding:10px;\">";
     buffer+="<p style=\"color:rgb("+ofToString(color.x)+","+ofToString(color.y)+","+ofToString(color.z)+");\">"+ofToString(p.getName())+":<br>";
-    buffer+="<input id='UIString"+ofToString(p.getName())+"' value='"+ofToString(p.get())+"'></p></div>";
+    buffer+="<input id='UIString"+ofToString(p.getName())+"' value='"+ofToString(p.get())+"'/></p></div>";
     buffer+="<script>$(function() { ";
     buffer+="$('#UIString"+ofToString(p.getName())+"').keypress(function() { var dInput = this.value; send( 'UIString:'+dInput ); });";
     buffer+=" });</script>";

@@ -21,6 +21,7 @@ class ofApp : public ofBaseApp {
             ofLight spotLight;
             ofLight directionalLight;
             ofMaterial material;
+            ofTrueTypeFont font;
 
             int w,h;
             int PORT = 80;

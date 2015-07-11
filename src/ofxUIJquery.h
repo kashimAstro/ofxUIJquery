@@ -48,7 +48,7 @@ class ofxUIJquery : public ofThread {
         string getResult();
 
         void init();
-        void setup(int port, ofPoint bg, STYLE TYPE = REDMOND);
+        void setup(string ADRESS, int port, ofPoint bg, STYLE TYPE = REDMOND);
         void threadedFunction();
         void start();
         void stop();
