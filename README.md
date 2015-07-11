@@ -15,3 +15,6 @@ video:
 https://www.youtube.com/watch?v=Kb7UOyNLqBQ
 
 ![alt tag](https://github.com/kashimAstro/ofxUIJquery/blob/master/1.png)
+![alt tag](https://github.com/kashimAstro/ofxUIJquery/blob/master/2.png)
+![alt tag](https://github.com/kashimAstro/ofxUIJquery/blob/master/3.png)
+![alt tag](https://github.com/kashimAstro/ofxUIJquery/blob/master/4.png)
