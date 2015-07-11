@@ -1,7 +1,7 @@
 #include "ofApp.h"
 
 void ofApp::setup(){
-    ofSetLogLevel(OF_LOG_SILENT);
+    //ofSetLogLevel(OF_LOG_SILENT);
 
     ofSetFrameRate(50);
     w=ofGetWidth();
@@ -9,13 +9,13 @@ void ofApp::setup(){
 
     gui.setup();
     gui.add(dark.set("dark",0.,0.,255.));
-    gui.add(dis.set("dis",ofVec2f(0),ofVec2f(0),ofVec2f(500)));
+    gui.add(dis.set("dis",ofVec2f(0),ofVec2f(0),ofVec2f(10)));
     gui.add(camerap.set("camerapos",ofVec3f(0),ofVec3f(0),ofVec3f(500)));
     gui.add(fullscreen.set("fullscreen",true));
     gui.add(hidedebug.set("stoprotation", true));
     gui.add(disablelight.set("disablelight", true));
-    gui.add(fps.set("framerate", ofToString(ofGetFrameRate())));
-    gui.setPosition(ofVec3f(100,100,0));
+    gui.add(info.set("info", ""));
+    gui.setPosition(ofVec3f(10,80,0));
 
     STYLE c = DARK_HIVE;
     host.setup(PORT,ofPoint(15,25,255),c);
@@ -25,7 +25,7 @@ void ofApp::setup(){
     host.setParameterFloat(dark,       ofPoint(200,1),  ofPoint(10));
     host.setParameterVec2(dis,         ofPoint(200,23), ofPoint(10));
     host.setParameterVec3(camerap,     ofPoint(200,65), ofPoint(10));
-    host.setParameterString(fps,       ofPoint(200,90), ofPoint(10));
+    host.setParameterString(info,      ofPoint(200,90), ofPoint(10));
     host.init();
 
     rp.resize(40);
@@ -58,7 +58,7 @@ void ofApp::exit(){
 
 void ofApp::update(){
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
-    fps.set(ofToString(ofGetFrameRate()));
+    info.set(info.get());
     host.update();
 }
 
@@ -75,19 +75,12 @@ void ofApp::draw(){
     }
     ofRotate(ofGetFrameNum()%1500);
     for (int i=0; i<rp.size(); i++) {
-           ofSetColor(rc[i]);
-
-           if(dis.get().x>50){
-                ofRotateY(ofGetFrameNum()%150);
-                ofDrawSphere( rp[i].x+camerap.get().x, rp[i].y+camerap.get().y, rp[i].z+camerap.get().z, 40 );
-           }
-
-           if(dis.get().y<50){
-                ofRotateZ(ofGetFrameNum()%110);
-                ofDrawCone( rp[i].x+camerap.get().x, rp[i].y+camerap.get().y, rp[i].z+camerap.get().z, 10, 100 );
-           }
-
-           ofDrawBox( rp[i].x+camerap.get().x*dis.get().x, rp[i].y+camerap.get().y*dis.get().y, rp[i].z+camerap.get().z, 40 );
+        ofSetColor(rc[i]);
+        ofRotateY(ofGetFrameNum()/100);
+        ofDrawSphere( rp[i].x+camerap.get().x+50*dis.get().x, rp[i].y+camerap.get().y+50, rp[i].z+camerap.get().z, 40);
+        ofRotateZ(ofGetFrameNum()/100);
+        ofDrawCone( rp[i].x+camerap.get().x-50*dis.get().x, rp[i].y+camerap.get().y-50, rp[i].z+camerap.get().z, 10, 100*dis.get().y );
+        ofDrawBox( rp[i].x+camerap.get().x*dis.get().x, rp[i].y+camerap.get().y*dis.get().y, rp[i].z+camerap.get().z, 40+dis.get().y );
     }
     if(disablelight){
         pointLight.disable();

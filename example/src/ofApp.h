@@ -14,7 +14,7 @@ class ofApp : public ofBaseApp {
             ofParameter<bool> fullscreen;
             ofParameter<bool> hidedebug;
             ofParameter<bool> disablelight;
-            ofParameter<string> fps;
+            ofParameter<string> info;
             ofxUIJquery host;
 
             ofLight pointLight;

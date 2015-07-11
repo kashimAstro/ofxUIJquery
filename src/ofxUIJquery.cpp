@@ -99,11 +99,10 @@ void ofxUIJquery::setup(int port, ofPoint bg, STYLE TYPE) {
     server.addListener(this);
     bSetup = server.setup( options );
 
-
     header+="HTTP/1.0 200 OK\n";
     header+="Server: Apache/1.3.29 (Unix) PHP/4.3.4\n";
     header+="Vary: Accept-Encoding,Cookie\n";
-    header+="Cache-Control: private, s-maxage=0, max-age=0, must-revalidate\n";
+    header+="Cache-Control: private, s-maxage=10, max-age=10, must-revalidate\n";
     header+="Content-Language: en\n";
     header+="Content-Type: text/html; charset=utf-8\n";
     header+="X-Cache: HIT from www.ofxUIJquery.x\n";
@@ -139,7 +138,7 @@ void ofxUIJquery::setup(int port, ofPoint bg, STYLE TYPE) {
     buffer+="<style>";
     buffer+=CSSbuffer.str();
     buffer+="* { font-family: \"Arial Verdana\", Arial, Verdana; }";
-    buffer+=".d_div { padding:25px; border-radius: 25px; box-shadow: 5px 5px 5px #888888; }";
+    buffer+=".d_div { padding:25px; border-radius: 5px; box-shadow: 5px 5px 5px #888888; }";
     buffer+="</style>";
     buffer+="<script>";
     buffer+=jQuerybuffer.str();
@@ -303,8 +302,13 @@ void ofxUIJquery::setParameterBool(ofParameter<bool> &p, ofPoint bg, ofPoint col
 }
 
 void ofxUIJquery::setParameterString(ofParameter<string> &p, ofPoint bg, ofPoint color) {
+    stringParam=&p;
     buffer+="<br><div class=\"d_div\" style=\"margin-left:10px;margin-top:10px;background:rgb("+ofToString(bg.x)+","+ofToString(bg.y)+","+ofToString(bg.z)+");padding:10px;\">";
-    buffer+="<p style=\"color:rgb("+ofToString(color.x)+","+ofToString(color.y)+","+ofToString(color.z)+");\">"+ofToString(p.getName())+": "+ofToString(p.get())+"</p></div>";
+    buffer+="<p style=\"color:rgb("+ofToString(color.x)+","+ofToString(color.y)+","+ofToString(color.z)+");\">"+ofToString(p.getName())+":<br>";
+    buffer+="<input id='UIString"+ofToString(p.getName())+"' value='"+ofToString(p.get())+"'></p></div>";
+    buffer+="<script>$(function() { ";
+    buffer+="$('#UIString"+ofToString(p.getName())+"').keypress(function() { var dInput = this.value; send( 'UIString:'+dInput ); });";
+    buffer+=" });</script>";
 }
 
 void ofxUIJquery::setParameterChar(ofParameter<char> &p, ofPoint bg, ofPoint color) {
@@ -312,6 +316,7 @@ void ofxUIJquery::setParameterChar(ofParameter<char> &p, ofPoint bg, ofPoint col
 }
 
 void ofxUIJquery::setParameterInt(ofParameter<int> &p, ofPoint bg, ofPoint color) {
+    intParam=&p;
     buffer+="<br><div class=\"d_div\" style=\"margin-left:10px;margin-top:10px;background:rgb("+ofToString(bg.x)+","+ofToString(bg.y)+","+ofToString(bg.z)+");padding:10px;\"><div id=\"titleInt\" style=\"color:rgb("+ofToString(color.x)+","+ofToString(color.y)+","+ofToString(color.z)+");\">";
     buffer+=p.getName();
     buffer+="</div><br>";

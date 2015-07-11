@@ -5,7 +5,9 @@ your application server opens tcp/http interface and generates an html/javascrip
 
 
 Dependencies:
-https://github.com/labatrockwell/ofxLibwebsockets
+ofxGui
+ofxNetwork
+ofxLibwebsockets: https://github.com/labatrockwell/ofxLibwebsockets
 
 Still under construction, there are a lot of bugs!
 
