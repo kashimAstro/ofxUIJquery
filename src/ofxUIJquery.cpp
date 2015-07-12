@@ -194,6 +194,20 @@ string ofxUIJquery::response(string value) {
 
     if(token!=""&&tvalue!=""){
 
+        /* string */
+        if(token=="UIString"){
+            name=sp[2];
+            string c;
+            ofLog()<<"UIString detect:"<<tvalue;
+            for(int i = 0; i < stringParam.size(); i++){
+                    if(stringParam[i]->getName()==name){
+                        c+=tvalue;
+                        stringParam[i]->set(name, c);
+                    }
+            }
+        }
+        //
+
         /* bool */
         if(token=="UIBool"){
             ofLog()<<"UIBool detect:"<<tvalue;
@@ -369,11 +383,12 @@ void ofxUIJquery::setParameterString(ofParameter<string> &p, ofPoint bg, ofPoint
     buffer+="<p style=\"color:rgb("+ofToString(color.x)+","+ofToString(color.y)+","+ofToString(color.z)+");\">"+ofToString(p.getName())+":<br>";
     buffer+="<input id='UIString"+ofToString(p.getName())+"' value='"+ofToString(p.get())+"'/></p></div>";
     buffer+="<script>$(function() { ";
-    buffer+="$('#UIString"+ofToString(p.getName())+"').keypress(function() { var dInput = this.value; send( 'UIString:'+dInput ); });";
+    buffer+="$('#UIString"+ofToString(p.getName())+"').keypress(function() { var dInput = this.value; send( 'UIString:'+dInput+':"+p.getName()+"' ); });";
     buffer+=" });</script>";
 }
 
 void ofxUIJquery::setParameterChar(ofParameter<char> &p, ofPoint bg, ofPoint color) {
+    charParam.push_back(&p);
     buffer+="<p style=\"color:red\">Char</p>";
 }
 

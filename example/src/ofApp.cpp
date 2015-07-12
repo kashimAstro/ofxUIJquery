@@ -12,6 +12,7 @@ void ofApp::setup(){
     gui.add(dark.set("dark",0.,0.,255.));
     gui.add(dis.set("dis",ofVec2f(0),ofVec2f(0),ofVec2f(10)));
     gui.add(camerap.set("camerapos",ofVec3f(0),ofVec3f(0),ofVec3f(500)));
+    gui.add(color.set("color",ofVec3f(0),ofVec3f(0),ofVec3f(255)));
     gui.add(disablelight.set("disablelight", true));
     gui.add(fullscreen.set("fullscreen", false));
     gui.add(info.set("info", ""));
@@ -25,6 +26,7 @@ void ofApp::setup(){
     host.setParameterFloat(dark,       ofPoint(22), ofPoint(255,55,2));
     host.setParameterVec2(dis,         ofPoint(22), ofPoint(255,55,2));
     host.setParameterVec3(camerap,     ofPoint(22), ofPoint(255,55,2));
+    host.setParameterVec3(color,       ofPoint(22), ofPoint(255,55,2));
     host.setParameterString(info,      ofPoint(22), ofPoint(255,55,2));
     host.init();
 
@@ -47,8 +49,8 @@ void ofApp::setup(){
     directionalLight.setDiffuseColor(ofColor(0.f, 0.f, 255.f));
     directionalLight.setSpecularColor(ofColor(255.f, 255.f, 255.f));
     directionalLight.setDirectional();
-    directionalLight.setOrientation( ofVec3f(0, 90, 0) );
-    material.setShininess( 120 );
+    directionalLight.setOrientation( ofVec3f(0, 190, 0) );
+    material.setShininess( 255 );
     material.setSpecularColor(ofColor(255, 255, 255, 255));
 }
 
@@ -82,6 +84,7 @@ void ofApp::draw(){
         ofDrawSphere( rp[i].x+camerap.get().x+50*dis.get().x, rp[i].y+camerap.get().y+50, rp[i].z+camerap.get().z, 40);
         ofRotateZ(ofGetFrameNum()%1000);
         ofDrawCone( rp[i].x+camerap.get().x-50*dis.get().x, rp[i].y+camerap.get().y-50, rp[i].z+camerap.get().z, 10, 10+100*dis.get().y );
+        ofSetColor(color.get().x,color.get().y,color.get().z);
         ofDrawBox( rp[i].x+camerap.get().x*dis.get().x, rp[i].y+camerap.get().y*dis.get().y, rp[i].z+camerap.get().z, 40+dis.get().y );
     }
 
@@ -101,13 +104,9 @@ void ofApp::draw(){
 
     ofPushStyle();
     ofSetColor(ofColor::red);
-    vector<string> tp=ofSplitString(host.getResult(),":");
-    if(tp[0]=="UIString") {
-            if(tp[1]!=""){
-                font.drawString(tp[1],10,h/2);
-                info.set(tp[1]);
-            }
-    }
+    font.drawString(info.get(),10,h/2);
+    ofSetColor(ofColor::white);
+    font.drawString(info.get(),20,h/2+60);
     ofPopStyle();
 }
 
