@@ -16,7 +16,7 @@ void ofApp::setup(){
     gui.add(disablelight.set("disablelight", true));
     gui.add(fullscreen.set("fullscreen", false));
     gui.add(info.set("info", ""));
-    gui.setPosition(ofVec3f(10,80,0));
+    gui.setPosition(ofVec3f(10,65,0));
 
     /*ofxUIjquery */
     PORT=80;
@@ -80,13 +80,13 @@ void ofApp::draw(){
         directionalLight.enable();
     }
 
-    ofRotate(ofGetFrameNum()/4);
+    ofRotate(ofGetFrameNum()/3.6);
     for (int i=0; i<rp.size(); i++) {
 
         ofSetColor(rc[i]);
         ofRotateY(ofGetFrameNum()/2);
         ofDrawSphere( rp[i].x+pos.get().x+50*dis.get().x, rp[i].y+pos.get().y+50, rp[i].z+pos.get().z, 25);
-        ofRotateZ(ofGetFrameNum()/4);
+        ofRotateZ(ofGetFrameNum()/2);
         ofDrawCone( rp[i].x+pos.get().x-50*dis.get().x, rp[i].y+pos.get().y-50, rp[i].z+pos.get().z, 10, 10+100*dis.get().y );
 
         ofSetColor(color.get().x,color.get().y,color.get().z);

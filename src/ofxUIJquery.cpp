@@ -187,13 +187,11 @@ void ofxUIJquery::init(){
 string ofxUIJquery::response(string value) {
     vector<string> sp = ofSplitString(value,":");
     string token,tvalue,name;
-    if(sp[0]!="")
-        token = sp[0];
-    if(sp[1]!="")
-        tvalue = sp[1];
 
-    if(token!=""&&tvalue!=""){
+    if(sp[0]!="") token = sp[0]; //inutile
+    if(sp[1]!="") tvalue = sp[1];//inutile
 
+    if(token!=""&&tvalue!="") {
         /* string */
         if(token=="UIString"){
             name=sp[2];
@@ -206,7 +204,7 @@ string ofxUIJquery::response(string value) {
                     }
             }
         }
-        //
+        /**/
 
         /* bool */
         if(token=="UIBool"){
@@ -217,7 +215,7 @@ string ofxUIJquery::response(string value) {
                     }
             }
         }
-        //
+        /**/
 
         /* int */
         if(token=="UIinteger"){
@@ -229,7 +227,7 @@ string ofxUIJquery::response(string value) {
                 }
             }
         }
-        //
+        /**/
 
         /* float */
         if(token=="UIFloat"){
@@ -241,7 +239,7 @@ string ofxUIJquery::response(string value) {
                 }
             }
         }
-        //
+        /**/
 
         /* vec2 */
         if(token=="XUIVec2"){
@@ -262,7 +260,7 @@ string ofxUIJquery::response(string value) {
                 }
             }
         }
-        //
+        /**/
 
         /* vec3 */
         if(token=="XUIVec3"){
@@ -292,7 +290,7 @@ string ofxUIJquery::response(string value) {
                 }
             }
         }
-        //
+        /**/
 
         /* vec4 */
         if(token=="XUIVec4"){
@@ -331,7 +329,7 @@ string ofxUIJquery::response(string value) {
                 }
             }
         }
-        //
+        /**/
     }
     return Response;
 }
@@ -352,6 +350,7 @@ void ofxUIJquery::stop(){
 
 void ofxUIJquery::exit(){
     TCP.close();
+    server.close();
 }
 
 void ofxUIJquery::update(){
