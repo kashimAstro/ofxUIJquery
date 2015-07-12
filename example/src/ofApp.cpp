@@ -108,6 +108,7 @@ void ofApp::draw(){
     ofSetColor(ofColor::red);
     font.drawString(info.get(),10,h/2);
     ofSetColor(ofColor::white);
+    font.setGlobalDpi(64);
     font.drawString(info.get(),20,h/2+60);
     ofPopStyle();
 }
