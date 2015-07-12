@@ -49,12 +49,13 @@ class ofxUIJquery : public ofThread {
         string getResult();
 
         void init();
-        void setup(string ADRESS, int port, ofPoint bg, STYLE TYPE = REDMOND);
+        void setup(string ADRESS, int port, int port2, ofPoint bg, STYLE TYPE = REDMOND);
         void threadedFunction();
         void start();
         void stop();
         void update();
         void upsocketUI(int port);
+        void exit();
 
         void setParameterBool(ofParameter<bool> &p, ofPoint bg, ofPoint color);
         void setParameterString(ofParameter<string> &p, ofPoint bg, ofPoint color);

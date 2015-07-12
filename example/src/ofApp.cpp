@@ -11,7 +11,7 @@ void ofApp::setup(){
     gui.setup();
     gui.add(dark.set("dark",0.,0.,255.));
     gui.add(dis.set("dis",ofVec2f(0),ofVec2f(0),ofVec2f(10)));
-    gui.add(camerap.set("camerapos",ofVec3f(0),ofVec3f(0),ofVec3f(500)));
+    gui.add(pos.set("position",ofVec3f(0),ofVec3f(0),ofVec3f(500)));
     gui.add(color.set("color",ofVec3f(0),ofVec3f(0),ofVec3f(255)));
     gui.add(disablelight.set("disablelight", true));
     gui.add(fullscreen.set("fullscreen", false));
@@ -20,17 +20,18 @@ void ofApp::setup(){
 
     /*ofxUIjquery */
     PORT=80;
+    PORTWS=9092;
     STYLE c = SUNNY;
-    host.setup("192.168.8.105",        PORT,        ofPoint(55),    c);
+    host.setup("192.168.8.105",   PORT,     PORTWS, ofPoint(55),    c);
     host.setParameterBool(disablelight,ofPoint(22), ofPoint(255,55,2));
     host.setParameterBool(fullscreen,  ofPoint(22), ofPoint(255,55,2));
     host.setParameterFloat(dark,       ofPoint(22), ofPoint(255,55,2));
     host.setParameterVec2(dis,         ofPoint(22), ofPoint(255,55,2));
-    host.setParameterVec3(camerap,     ofPoint(22), ofPoint(255,55,2));
+    host.setParameterVec3(pos,         ofPoint(22), ofPoint(255,55,2));
     host.setParameterVec3(color,       ofPoint(22), ofPoint(255,55,2));
     host.setParameterString(info,      ofPoint(22), ofPoint(255,55,2));
     host.init();
-    //
+    /**/
 
     rp.resize(40);
     rc.resize(rp.size() );
@@ -57,7 +58,7 @@ void ofApp::setup(){
 }
 
 void ofApp::exit(){
-
+    host.exit();
 }
 
 void ofApp::update(){
@@ -79,15 +80,17 @@ void ofApp::draw(){
         directionalLight.enable();
     }
 
-    ofRotate(ofGetFrameNum()%1500);
+    ofRotate(ofGetFrameNum()/4);
     for (int i=0; i<rp.size(); i++) {
+
         ofSetColor(rc[i]);
-        ofRotateY(ofGetFrameNum()%2000);
-        ofDrawSphere( rp[i].x+camerap.get().x+50*dis.get().x, rp[i].y+camerap.get().y+50, rp[i].z+camerap.get().z, 40);
-        ofRotateZ(ofGetFrameNum()%1000);
-        ofDrawCone( rp[i].x+camerap.get().x-50*dis.get().x, rp[i].y+camerap.get().y-50, rp[i].z+camerap.get().z, 10, 10+100*dis.get().y );
+        ofRotateY(ofGetFrameNum()/2);
+        ofDrawSphere( rp[i].x+pos.get().x+50*dis.get().x, rp[i].y+pos.get().y+50, rp[i].z+pos.get().z, 25);
+        ofRotateZ(ofGetFrameNum()/4);
+        ofDrawCone( rp[i].x+pos.get().x-50*dis.get().x, rp[i].y+pos.get().y-50, rp[i].z+pos.get().z, 10, 10+100*dis.get().y );
+
         ofSetColor(color.get().x,color.get().y,color.get().z);
-        ofDrawBox( rp[i].x+camerap.get().x*dis.get().x, rp[i].y+camerap.get().y*dis.get().y, rp[i].z+camerap.get().z, 40+dis.get().y );
+        ofDrawBox( rp[i].x+pos.get().x*dis.get().x, rp[i].y+pos.get().y*dis.get().y, rp[i].z+pos.get().z, 40+dis.get().y );
     }
 
     if(disablelight){

@@ -10,7 +10,7 @@ class ofApp : public ofBaseApp {
             ofxPanel gui;
             ofParameter<float> dark;
             ofParameter<ofVec2f> dis;
-            ofParameter<ofVec3f> camerap;
+            ofParameter<ofVec3f> pos;
             ofParameter<ofVec3f> color;
             ofParameter<bool> disablelight;
             ofParameter<bool> fullscreen;
@@ -24,7 +24,7 @@ class ofApp : public ofBaseApp {
             ofTrueTypeFont font;
 
             int w,h;
-            int PORT;
+            int PORT,PORTWS;
 
     		void setup();
             void update();
