@@ -18,9 +18,10 @@ void ofApp::setup(){
     gui.add(info.set("info", ""));
     gui.setPosition(ofVec3f(10,80,0));
 
+    /*ofxUIjquery */
+    PORT=80;
     STYLE c = SUNNY;
-
-    host.setup("192.168.8.105",PORT,ofPoint(55),c);
+    host.setup("192.168.8.105",        PORT,        ofPoint(55),    c);
     host.setParameterBool(disablelight,ofPoint(22), ofPoint(255,55,2));
     host.setParameterBool(fullscreen,  ofPoint(22), ofPoint(255,55,2));
     host.setParameterFloat(dark,       ofPoint(22), ofPoint(255,55,2));
@@ -29,6 +30,7 @@ void ofApp::setup(){
     host.setParameterVec3(color,       ofPoint(22), ofPoint(255,55,2));
     host.setParameterString(info,      ofPoint(22), ofPoint(255,55,2));
     host.init();
+    //
 
     rp.resize(40);
     rc.resize(rp.size() );

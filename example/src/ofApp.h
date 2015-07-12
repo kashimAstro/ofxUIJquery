@@ -24,7 +24,7 @@ class ofApp : public ofBaseApp {
             ofTrueTypeFont font;
 
             int w,h;
-            int PORT = 80;
+            int PORT;
 
     		void setup();
             void update();
