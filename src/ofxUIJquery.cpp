@@ -182,76 +182,142 @@ int ofxUIJquery::getPort(){
 void ofxUIJquery::init(){
     buffer+="</div></body>";
     buffer+="</html>";
-
 }
 
 string ofxUIJquery::response(string value) {
     vector<string> sp = ofSplitString(value,":");
-    string token,tvalue;
+    string token,tvalue,name;
     if(sp[0]!="")
         token = sp[0];
-    if(sp[0]!="")
+    if(sp[1]!="")
         tvalue = sp[1];
+
     if(token!=""&&tvalue!=""){
+
         /* bool */
         if(token=="UIBool"){
-            ofLog()<<"UIBool detect!";
-            boolParam->set( !boolParam->get() );
+            ofLog()<<"UIBool detect:"<<tvalue;
+            for(int i = 0; i < boolParam.size(); i++){
+                    if(boolParam[i]->getName()==tvalue){
+                        boolParam[i]->set(tvalue, !boolParam[i]->get());
+                    }
+            }
         }
-        /**/
+        //
 
         /* int */
         if(token=="UIinteger"){
-            ofLog()<<"UIinteger detect!";
+            name=sp[2];
+            ofLog()<<"UIinteger detect:"<<tvalue<<":"<<name;
+            for(int i = 0; i < intParam.size(); i++){
+                if(intParam[i]->getName()==name){
+                    intParam[i]->set(name,ofToInt(tvalue));
+                }
+            }
         }
+        //
 
         /* float */
         if(token=="UIFloat"){
-            ofLog()<<"UIFloat detect!";
-            floatParam->set(ofToInt(tvalue));
+            name=sp[2];
+            ofLog()<<"UIFloat detect:"<<tvalue;
+            for(int i = 0; i < floatParam.size(); i++){
+                if(floatParam[i]->getName()==name){
+                    floatParam[i]->set(name,ofToFloat(tvalue));
+                }
+            }
         }
+        //
 
         /* vec2 */
         if(token=="XUIVec2"){
+            name=sp[2];
             ofLog()<<"XUIVec2 detect!";
-            vec2Param->set(ofVec2f(ofToInt(tvalue),vec2Param->get().y));
+            for(int i = 0; i < vec2Param.size(); i++){
+                if(vec2Param[i]->getName()==name){
+                    vec2Param[i]->set(name,ofVec2f(ofToFloat(tvalue),vec2Param[i]->get().y));
+                }
+            }
         }
         if(token=="YUIVec2"){
+            name=sp[2];
             ofLog()<<"YUIVec2 detect!";
-            vec2Param->set(ofVec2f(vec2Param->get().x,ofToInt(tvalue)));
+            for(int i = 0; i < vec2Param.size(); i++){
+                if(vec2Param[i]->getName()==name){
+                    vec2Param[i]->set(name,ofVec2f(vec2Param[i]->get().x,ofToFloat(tvalue)));
+                }
+            }
         }
+        //
 
         /* vec3 */
         if(token=="XUIVec3"){
+            name=sp[2];
             ofLog()<<"XUIVec3 detect!";
-            vec3Param->set(ofVec3f(ofToInt(tvalue),vec3Param->get().y,vec3Param->get().z));
+            for(int i = 0; i < vec3Param.size(); i++){
+                if(vec3Param[i]->getName()==name){
+                    vec3Param[i]->set(name,ofVec3f(ofToFloat(tvalue),vec3Param[i]->get().y,vec3Param[i]->get().z));
+                }
+            }
         }
         if(token=="YUIVec3"){
+            name=sp[2];
             ofLog()<<"YUIVec3 detect!";
-            vec3Param->set(ofVec3f(vec3Param->get().x,ofToInt(tvalue),vec3Param->get().z));
+            for(int i = 0; i < vec3Param.size(); i++){
+                if(vec3Param[i]->getName()==name){
+                    vec3Param[i]->set(name,ofVec3f(vec3Param[i]->get().x,ofToFloat(tvalue),vec3Param[i]->get().z));
+                }
+            }
         }
         if(token=="ZUIVec3"){
+            name=sp[2];
             ofLog()<<"ZUIVec3 detect!";
-            vec3Param->set(ofVec3f(vec3Param->get().x,vec3Param->get().y,ofToInt(tvalue)));
+            for(int i = 0; i < vec3Param.size(); i++){
+                if(vec3Param[i]->getName()==name){
+                    vec3Param[i]->set(ofVec3f(vec3Param[i]->get().x,vec3Param[i]->get().y,ofToFloat(tvalue)));
+                }
+            }
         }
+        //
 
         /* vec4 */
         if(token=="XUIVec4"){
+            name=sp[2];
             ofLog()<<"XUIVec4 detect!";
-            vec4Param->set(ofVec4f(ofToInt(tvalue),vec4Param->get().y,vec4Param->get().z,vec4Param->get().w));
+            for(int i = 0; i < vec4Param.size(); i++){
+                if(vec4Param[i]->getName()==name){
+                    vec4Param[i]->set(ofVec4f(ofToFloat(tvalue),vec4Param[i]->get().y,vec4Param[i]->get().z,vec4Param[i]->get().w));
+                }
+            }
         }
         if(token=="YUIVec4"){
+            name=sp[2];
             ofLog()<<"YUIVec4 detect!";
-            vec4Param->set(ofVec4f(vec4Param->get().x,ofToInt(tvalue),vec4Param->get().z,vec4Param->get().w));
+            for(int i = 0; i < vec4Param.size(); i++){
+                if(vec4Param[i]->getName()==name){
+                    vec4Param[i]->set(ofVec4f(vec4Param[i]->get().x,ofToFloat(tvalue),vec4Param[i]->get().z,vec4Param[i]->get().w));
+                }
+            }
         }
         if(token=="ZUIVec4"){
+            name=sp[2];
             ofLog()<<"ZUIVec4 detect!";
-            vec4Param->set(ofVec4f(vec4Param->get().x,vec4Param->get().y,ofToInt(tvalue),vec4Param->get().w));
+            for(int i = 0; i < vec4Param.size(); i++){
+                if(vec4Param[i]->getName()==name){
+                    vec4Param[i]->set(ofVec4f(vec4Param[i]->get().x,vec4Param[i]->get().y,ofToFloat(tvalue),vec4Param[i]->get().w));
+                }
+            }
         }
         if(token=="WUIVec4"){
+            name=sp[2];
             ofLog()<<"WUIVec4 detect!";
-            vec4Param->set(ofVec4f(vec4Param->get().x,vec4Param->get().y,vec4Param->get().z,ofToInt(tvalue)));
+            for(int i = 0; i < vec4Param.size(); i++){
+                if(vec4Param[i]->getName()==name){
+                    vec4Param[i]->set(ofVec4f(vec4Param[i]->get().x,vec4Param[i]->get().y,vec4Param[i]->get().z,ofToFloat(tvalue)));
+                }
+            }
         }
+        //
     }
     return Response;
 }
@@ -288,7 +354,7 @@ void ofxUIJquery::upsocketUI(int port){
 }
 
 void ofxUIJquery::setParameterBool(ofParameter<bool> &p, ofPoint bg, ofPoint color) {
-    boolParam=&p;
+    boolParam.push_back(&p);
     buffer+="\n<div class=\"d_div\" style=\"margin-left:10px;margin-top:10px;background:rgb("+ofToString(bg.x)+","+ofToString(bg.y)+","+ofToString(bg.z)+");padding:10px;\"><a id=\"bool"+p.getName()+"\">\n";
     buffer+=p.getName();
     buffer+="\n</a></div>\n";
@@ -298,7 +364,7 @@ void ofxUIJquery::setParameterBool(ofParameter<bool> &p, ofPoint bg, ofPoint col
 }
 
 void ofxUIJquery::setParameterString(ofParameter<string> &p, ofPoint bg, ofPoint color) {
-    stringParam=&p;
+    stringParam.push_back(&p);
     buffer+="<br><div class=\"d_div\" style=\"margin-left:10px;margin-top:10px;background:rgb("+ofToString(bg.x)+","+ofToString(bg.y)+","+ofToString(bg.z)+");padding:10px;\">";
     buffer+="<p style=\"color:rgb("+ofToString(color.x)+","+ofToString(color.y)+","+ofToString(color.z)+");\">"+ofToString(p.getName())+":<br>";
     buffer+="<input id='UIString"+ofToString(p.getName())+"' value='"+ofToString(p.get())+"'/></p></div>";
@@ -312,49 +378,49 @@ void ofxUIJquery::setParameterChar(ofParameter<char> &p, ofPoint bg, ofPoint col
 }
 
 void ofxUIJquery::setParameterInt(ofParameter<int> &p, ofPoint bg, ofPoint color) {
-    intParam=&p;
+    intParam.push_back(&p);
     buffer+="<br><div class=\"d_div\" style=\"margin-left:10px;margin-top:10px;background:rgb("+ofToString(bg.x)+","+ofToString(bg.y)+","+ofToString(bg.z)+");padding:10px;\"><div id=\"titleInt\" style=\"color:rgb("+ofToString(color.x)+","+ofToString(color.y)+","+ofToString(color.z)+");\">";
     buffer+=p.getName();
     buffer+="</div><br>";
     buffer+="<div id='sliderI"+ofToString(p.getName())+"'></div></div><br>";
-    buffer+="<script> $(function() { $( '#sliderI"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin())+", max: "+ofToString(p.getMax())+", change: function(event, ui) { console.log('UIinteger:'+ui.value); send( 'UIinteger:'+ui.value ) }  }); });</script>";
+    buffer+="<script> $(function() { $( '#sliderI"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin())+", max: "+ofToString(p.getMax())+", change: function(event, ui) { console.log('UIinteger:'+ui.value+':"+p.getName()+"'); send( 'UIinteger:'+ui.value ); }  }); });</script>";
 }
 
 void ofxUIJquery::setParameterFloat(ofParameter<float> &p, ofPoint bg, ofPoint color) {
-    floatParam=&p;
+    floatParam.push_back(&p);
     buffer+="<br><div class=\"d_div\" style=\"margin-left:10px;margin-top:10px;background:rgb("+ofToString(bg.x)+","+ofToString(bg.y)+","+ofToString(bg.z)+");padding:10px;\"><div id=\"titleFloat\" style=\"color:rgb("+ofToString(color.x)+","+ofToString(color.y)+","+ofToString(color.z)+");\">";
     buffer+=p.getName();
     buffer+="</div><br>";
     buffer+="<div id='sliderF"+ofToString(p.getName())+"'></div></div><br>";
-    buffer+="<script> $(function() { $( '#sliderF"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin())+", max: "+ofToString(p.getMax())+", change: function(event, ui) { console.log('UIFloat:'+ui.value); send( 'UIFloat:'+ui.value ) }  }); });</script>";
+    buffer+="<script> $(function() { $( '#sliderF"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin())+", max: "+ofToString(p.getMax())+", change: function(event, ui) { console.log('UIFloat:'+ui.value+':"+p.getName()+"'); send( 'UIFloat:'+ui.value+':"+p.getName()+"' ) }  }); });</script>";
 }
 
 void ofxUIJquery::setParameterVec2(ofParameter<ofVec2f> &p, ofPoint bg, ofPoint color) {
-    vec2Param=&p;
+    vec2Param.push_back(&p);
     buffer+="<br><div class=\"d_div\" style=\"margin-left:10px;margin-top:10px;background:rgb("+ofToString(bg.x)+","+ofToString(bg.y)+","+ofToString(bg.z)+");padding:10px;\"><div id=\"titleVec2\" style=\"color:rgb("+ofToString(color.x)+","+ofToString(color.y)+","+ofToString(color.z)+");\">";
     buffer+=p.getName();
     buffer+="</div><br>";
     buffer+="<div id='XsliderVec2"+ofToString(p.getName())+"'></div><br>";
     buffer+="<div id='YsliderVec2"+ofToString(p.getName())+"'></div></div><br>";
-    buffer+="<script> $(function() { $( '#XsliderVec2"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().x)+", max: "+ofToString(p.getMax().x)+", change: function(event, ui) { console.log('XUIVec2:'+ui.value); send( 'XUIVec2:'+ui.value ) }  } ); });</script>";
-    buffer+="<script> $(function() { $( '#YsliderVec2"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().y)+", max: "+ofToString(p.getMax().y)+", change: function(event, ui) { console.log('YUIVec2:'+ui.value); send( 'YUIVec2:'+ui.value ) }  } ); });</script>";
+    buffer+="<script> $(function() { $( '#XsliderVec2"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().x)+", max: "+ofToString(p.getMax().x)+", change: function(event, ui) { console.log('XUIVec2:'+ui.value+':"+p.getName()+"'); send( 'XUIVec2:'+ui.value+':"+p.getName()+"' ) }  } ); });</script>";
+    buffer+="<script> $(function() { $( '#YsliderVec2"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().y)+", max: "+ofToString(p.getMax().y)+", change: function(event, ui) { console.log('YUIVec2:'+ui.value+':"+p.getName()+"'); send( 'YUIVec2:'+ui.value+':"+p.getName()+"' ) }  } ); });</script>";
 }
 
 void ofxUIJquery::setParameterVec3(ofParameter<ofVec3f> &p, ofPoint bg, ofPoint color) {
-    vec3Param=&p;
+    vec3Param.push_back(&p);
     buffer+="<br><div class=\"d_div\" style=\"margin-left:10px;margin-top:10px;background:rgb("+ofToString(bg.x)+","+ofToString(bg.y)+","+ofToString(bg.z)+");padding:10px;\"><div id=\"titleVec3\" style=\"color:rgb("+ofToString(color.x)+","+ofToString(color.y)+","+ofToString(color.z)+");\">";
     buffer+=p.getName();
     buffer+="</div><br>";
     buffer+="<div id='XsliderVec3"+ofToString(p.getName())+"'></div><br>";
     buffer+="<div id='YsliderVec3"+ofToString(p.getName())+"'></div><br>";
     buffer+="<div id='ZsliderVec3"+ofToString(p.getName())+"'></div></div><br>";
-    buffer+="<script> $(function() { $( '#XsliderVec3"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().x)+", max: "+ofToString(p.getMax().x)+", change: function(event, ui) { console.log('XUIVec3:'+ui.value); send('XUIVec3:'+ui.value); } }); });</script>";
-    buffer+="<script> $(function() { $( '#YsliderVec3"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().y)+", max: "+ofToString(p.getMax().y)+", change: function(event, ui) { console.log('YUIVec3:'+ui.value); send('YUIVec3:'+ui.value); } }); });</script>";
-    buffer+="<script> $(function() { $( '#ZsliderVec3"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().z)+", max: "+ofToString(p.getMax().z)+", change: function(event, ui) { console.log('ZUIVec3:'+ui.value); send('ZUIVec3:'+ui.value); } }); });</script>";
+    buffer+="<script> $(function() { $( '#XsliderVec3"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().x)+", max: "+ofToString(p.getMax().x)+", change: function(event, ui) { console.log('XUIVec3:'+ui.value+':"+p.getName()+"'); send('XUIVec3:'+ui.value+':"+p.getName()+"'); } }); });</script>";
+    buffer+="<script> $(function() { $( '#YsliderVec3"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().y)+", max: "+ofToString(p.getMax().y)+", change: function(event, ui) { console.log('YUIVec3:'+ui.value+':"+p.getName()+"'); send('YUIVec3:'+ui.value+':"+p.getName()+"'); } }); });</script>";
+    buffer+="<script> $(function() { $( '#ZsliderVec3"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().z)+", max: "+ofToString(p.getMax().z)+", change: function(event, ui) { console.log('ZUIVec3:'+ui.value+':"+p.getName()+"'); send('ZUIVec3:'+ui.value+':"+p.getName()+"'); } }); });</script>";
 }
 
 void ofxUIJquery::setParameterVec4(ofParameter<ofVec4f> &p, ofPoint bg, ofPoint color) {
-    vec4Param=&p;
+    vec4Param.push_back(&p);
     buffer+="<br><div class=\"d_div\" style=\"margin-left:10px;margin-top:10px;background:rgb("+ofToString(bg.x)+","+ofToString(bg.y)+","+ofToString(bg.z)+");padding:10px;\"><div id=\"titleVec4\" style=\"color:rgb("+ofToString(color.x)+","+ofToString(color.y)+","+ofToString(color.z)+");\">";
     buffer+=p.getName();
     buffer+="</div><br>";
@@ -362,10 +428,10 @@ void ofxUIJquery::setParameterVec4(ofParameter<ofVec4f> &p, ofPoint bg, ofPoint 
     buffer+="<div id='YsliderVec4"+ofToString(p.getName())+"'></div><br>";
     buffer+="<div id='ZsliderVec4"+ofToString(p.getName())+"'></div><br>";
     buffer+="<div id='WsliderVec4"+ofToString(p.getName())+"'></div></div><br>";
-    buffer+="<script> $(function() { $( '#XsliderVec4"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().x)+", max: "+ofToString(p.getMax().x)+", change: function(event, ui) { console.log('XUIVec4:'+ui.value); send('XUIVec4:'+ui.value); } }); });</script>";
-    buffer+="<script> $(function() { $( '#YsliderVec4"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().x)+", max: "+ofToString(p.getMax().x)+", change: function(event, ui) { console.log('YUIVec4:'+ui.value); send('YUIVec4:'+ui.value); } }); });</script>";
-    buffer+="<script> $(function() { $( '#ZsliderVec4"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().x)+", max: "+ofToString(p.getMax().x)+", change: function(event, ui) { console.log('ZUIVec4:'+ui.value); send('ZUIVec4:'+ui.value); } }); });</script>";
-    buffer+="<script> $(function() { $( '#WsliderVec4"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().x)+", max: "+ofToString(p.getMax().x)+", change: function(event, ui) { console.log('WUIVec4:'+ui.value); send('WUIVec4:'+ui.value); } }); });</script>";
+    buffer+="<script> $(function() { $( '#XsliderVec4"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().x)+", max: "+ofToString(p.getMax().x)+", change: function(event, ui) { console.log('XUIVec4:'+ui.value+':"+p.getName()+"'); send('XUIVec4:'+ui.value+':"+p.getName()+"'); } }); });</script>";
+    buffer+="<script> $(function() { $( '#YsliderVec4"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().x)+", max: "+ofToString(p.getMax().x)+", change: function(event, ui) { console.log('YUIVec4:'+ui.value+':"+p.getName()+"'); send('YUIVec4:'+ui.value+':"+p.getName()+"'); } }); });</script>";
+    buffer+="<script> $(function() { $( '#ZsliderVec4"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().x)+", max: "+ofToString(p.getMax().x)+", change: function(event, ui) { console.log('ZUIVec4:'+ui.value+':"+p.getName()+"'); send('ZUIVec4:'+ui.value+':"+p.getName()+"'); } }); });</script>";
+    buffer+="<script> $(function() { $( '#WsliderVec4"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().x)+", max: "+ofToString(p.getMax().x)+", change: function(event, ui) { console.log('WUIVec4:'+ui.value+':"+p.getName()+"'); send('WUIVec4:'+ui.value+':"+p.getName()+"'); } }); });</script>";
 }
 
 /*void ofxUIJquery::setParameterColor(ofParameter<ofColor> &p) {

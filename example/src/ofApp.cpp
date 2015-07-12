@@ -1,7 +1,7 @@
 #include "ofApp.h"
 
 void ofApp::setup(){
-    ofSetLogLevel(OF_LOG_SILENT);
+    //ofSetLogLevel(OF_LOG_SILENT);
 
     ofSetFrameRate(60);
     w=ofGetWidth();
@@ -12,18 +12,16 @@ void ofApp::setup(){
     gui.add(dark.set("dark",0.,0.,255.));
     gui.add(dis.set("dis",ofVec2f(0),ofVec2f(0),ofVec2f(10)));
     gui.add(camerap.set("camerapos",ofVec3f(0),ofVec3f(0),ofVec3f(500)));
-    gui.add(fullscreen.set("fullscreen",true));
-    gui.add(hidedebug.set("stoprotation", true));
     gui.add(disablelight.set("disablelight", true));
+    gui.add(fullscreen.set("fullscreen", false));
     gui.add(info.set("info", ""));
     gui.setPosition(ofVec3f(10,80,0));
 
     STYLE c = SUNNY;
 
     host.setup("192.168.8.105",PORT,ofPoint(55),c);
-    host.setParameterBool(fullscreen,  ofPoint(22), ofPoint(255,55,2));
-    host.setParameterBool(hidedebug,   ofPoint(22), ofPoint(255,55,2));
     host.setParameterBool(disablelight,ofPoint(22), ofPoint(255,55,2));
+    host.setParameterBool(fullscreen,  ofPoint(22), ofPoint(255,55,2));
     host.setParameterFloat(dark,       ofPoint(22), ofPoint(255,55,2));
     host.setParameterVec2(dis,         ofPoint(22), ofPoint(255,55,2));
     host.setParameterVec3(camerap,     ofPoint(22), ofPoint(255,55,2));

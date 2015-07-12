@@ -26,14 +26,15 @@ class ofxUIJquery : public ofThread {
         ofxLibwebsockets::Server server;
         string sock_value;
 
-        ofParameter<string>  *stringParam;
-        ofParameter<char>    *charParam;
-        ofParameter<int>     *intParam;
-        ofParameter<bool>    *boolParam;
-        ofParameter<float>   *floatParam;
-        ofParameter<ofVec2f> *vec2Param;
-        ofParameter<ofVec3f> *vec3Param;
-        ofParameter<ofVec4f> *vec4Param;
+        vector<ofParameter<string>  *> stringParam;
+        vector<ofParameter<char>    *> charParam;
+        vector<ofParameter<int>     *> intParam;
+        vector<ofParameter<bool>    *> boolParam;
+        vector<ofParameter<float>   *> floatParam;
+        vector<ofParameter<ofVec2f> *> vec2Param;
+        vector<ofParameter<ofVec3f> *> vec3Param;
+        vector<ofParameter<ofVec4f> *> vec4Param;
+
         string buffer;
         string header;
         string Response;

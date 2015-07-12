@@ -11,9 +11,8 @@ class ofApp : public ofBaseApp {
             ofParameter<float> dark;
             ofParameter<ofVec2f> dis;
             ofParameter<ofVec3f> camerap;
-            ofParameter<bool> fullscreen;
-            ofParameter<bool> hidedebug;
             ofParameter<bool> disablelight;
+            ofParameter<bool> fullscreen;
             ofParameter<string> info;
             ofxUIJquery host;
 
