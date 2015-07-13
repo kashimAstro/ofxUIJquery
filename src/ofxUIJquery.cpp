@@ -103,7 +103,7 @@ void ofxUIJquery::setup(string ADRESS, int port, int port2, ofPoint bg, STYLE TY
     header+="Content-Language: en\n";
     header+="Content-Type: text/html; charset=utf-8\n";
     header+="X-Cache: HIT from www.ofxUIJquery.x\n";
-    header+="Connection: close\n";
+    header+="Connection: close\n\n";
 
     stringstream CSSbuffer;
     ifstream CSSfile(setStyle(TYPE).c_str());
@@ -131,7 +131,7 @@ void ofxUIJquery::setup(string ADRESS, int port, int port2, ofPoint bg, STYLE TY
         WEBSbuffer << WEBSfile.rdbuf();
     }
 
-    buffer+=header+"\n<html><head><title>ofxUIJquery</title>";
+    buffer+=header+"<html><head><title>ofxUIJquery</title>";
     buffer+="<style>";
     buffer+=CSSbuffer.str();
     buffer+="* { font-family: \"Arial Verdana\", Arial, Verdana; }";
@@ -139,6 +139,7 @@ void ofxUIJquery::setup(string ADRESS, int port, int port2, ofPoint bg, STYLE TY
     buffer+="input { height:40px;border-bottom-color: #b3b3b3;border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;border-bottom-style: solid;";
     buffer+="border-bottom-width: 1px;border-left-color: #b3b3b3;border-left-style: solid;border-left-width: 1px;border-right-color: #b3b3b3;border-right-style: solid;";
     buffer+="border-right-width: 1px;border-top-color: #b3b3b3;border-top-left-radius: 3px;border-top-right-radius: 3px;border-top-style: solid;border-top-width: 1px; }";
+    buffer+="div{margin-bottom:10px;}";
     buffer+="</style>";
     buffer+="<script>";
     buffer+=jQuerybuffer.str();
@@ -390,7 +391,7 @@ void ofxUIJquery::setParameterString(ofParameter<string> &p, ofPoint bg, ofPoint
     buffer+=" });</script>";
 }
 
-void ofxUIJquery::setParameterChar(ofParameter<char> &p, ofPoint bg, ofPoint color) {
+void ofxUIJquery::setParameterChar(ofParameter<char> &p, ofPoint bg, ofPoint color) { //serve?
     charParam.push_back(&p);
     buffer+="<p style=\"color:red\">Char</p>";
 }
@@ -452,7 +453,7 @@ void ofxUIJquery::setParameterVec4(ofParameter<ofVec4f> &p, ofPoint bg, ofPoint 
     buffer+="<script> $(function() { $( '#WsliderVec4"+ofToString(p.getName())+"' ).slider({ min: "+ofToString(p.getMin().x)+", max: "+ofToString(p.getMax().x)+", change: function(event, ui) { console.log('WUIVec4:'+ui.value+':"+p.getName()+"'); $('#"+p.getName()+"_valuesW').html('W:'+ui.value); send('WUIVec4:'+ui.value+':"+p.getName()+"'); } }); });</script>";
 }
 
-/*void ofxUIJquery::setParameterColor(ofParameter<ofColor> &p) {
+/*void ofxUIJquery::setParameterColor(ofParameter<ofColor> &p) { //poi..
     buffer+="<script> $(function() { $( \"#XsliderColor\" ).slider(); });</script>";
     buffer+="<script> $(function() { $( \"#YsliderColor\" ).slider(); });</script>";
     buffer+="<script> $(function() { $( \"#ZsliderColor\" ).slider(); });</script>";
