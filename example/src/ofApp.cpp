@@ -21,15 +21,15 @@ void ofApp::setup(){
     /*ofxUIjquery */
     PORT=80;
     PORTWS=9092;
-    STYLE c = SUNNY;
-    host.setup("192.168.8.105",   PORT,     PORTWS, ofPoint(55),    c);
-    host.setParameterBool(disablelight,ofPoint(22), ofPoint(255,55,2));
-    host.setParameterBool(fullscreen,  ofPoint(22), ofPoint(255,55,2));
-    host.setParameterFloat(dark,       ofPoint(22), ofPoint(255,55,2));
-    host.setParameterVec2(dis,         ofPoint(22), ofPoint(255,55,2));
-    host.setParameterVec3(pos,         ofPoint(22), ofPoint(255,55,2));
-    host.setParameterVec3(color,       ofPoint(22), ofPoint(255,55,2));
-    host.setParameterString(info,      ofPoint(22), ofPoint(255,55,2));
+    STYLE c = VADER;
+    host.setup("127.0.0.1",   PORT,    PORTWS, ofPoint(186,65,25),    c);
+    host.setParameterBool(disablelight,ofPoint(242,47,136), ofPoint(50,205,50));
+    host.setParameterBool(fullscreen,  ofPoint(242,47,136), ofPoint(204,0,56));
+    host.setParameterFloat(dark,       ofPoint(242,47,136), ofPoint(50,205,50));
+    host.setParameterVec2(dis,         ofPoint(242,47,136), ofPoint(204,0,56));
+    host.setParameterVec3(pos,         ofPoint(242,47,136), ofPoint(50,205,50));
+    host.setParameterVec3(color,       ofPoint(242,47,136), ofPoint(204,0,56));
+    host.setParameterString(info,      ofPoint(242,47,136), ofPoint(50,205,50));
     host.init();
     /**/
 
