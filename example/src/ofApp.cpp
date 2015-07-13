@@ -22,7 +22,7 @@ void ofApp::setup(){
     PORT=80;
     PORTWS=9092;
     STYLE c = VADER;
-    host.setup("127.0.0.1",   PORT,    PORTWS, ofPoint(186,65,25),    c);
+    host.setup("172.16.200.230",       PORT,    PORTWS, ofPoint(186,65,25),    c);
     host.setParameterBool(disablelight,ofPoint(242,47,136), ofPoint(50,205,50));
     host.setParameterBool(fullscreen,  ofPoint(242,47,136), ofPoint(204,0,56));
     host.setParameterFloat(dark,       ofPoint(242,47,136), ofPoint(50,205,50));
