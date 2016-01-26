@@ -8,6 +8,23 @@ ofxUIJquery::~ofxUIJquery(){
 
 }
 
+string ofxUIJquery::place(ofxPanel &p){
+    string b;
+    ofLog()<<p.getNumControls();
+    vector<string> fn = p.getControlNames();
+    for(int  i = 0; i < fn.size(); i++) {
+        ofLog()<<fn[i];
+    }
+    return b;
+}
+
+void ofxUIJquery::log(string _file,string _buffer){
+    ofFile file;
+    file.open(_file, ofFile::WriteOnly);
+    file << _buffer;
+    file.close();
+}
+
 void ofxUIJquery::onConnect( ofxLibwebsockets::Event& args ){
     ofLog()<<"on connected";
 }
@@ -83,27 +100,34 @@ string ofxUIJquery::setStyle(STYLE TYPE) {
     return path;
 }
 
+string ofxUIJquery::prepareHeader(int _size){
+    string buf;
+    string time = ofGetTimestampString("%w, %e %b %Y %H:%M:%S GMT");
+
+    buf+="HTTP/1.1 200 OK\n";
+    buf+="Date: "+time+"\n";
+    buf+="Server: Apache/2.2\n";
+    buf+="Last-Modified: Fri, 20 Feb 2015 21:34:27 GMT\n";
+    buf+="ETag: \"42aa183-151b-50f8bd1209f9d\"\n";
+    buf+="Accept-Ranges: bytes\n";
+    buf+="Content-Length: "+ofToString(_size)+"\n";
+    buf+="Connection: close\n";
+    buf+="Content-Type: text/html\n\n";
+    return buf;
+}
+
 void ofxUIJquery::setup(string ADRESS, int port, int port2, ofPoint bg, STYLE TYPE) {
     LOCAL_IP_ADDRESS=ADRESS;
     PORT_CLIENT=port2;
 
     TCP.setup(port);
-    TCP.setMessageDelimiter("</html>");
+    TCP.setMessageDelimiter("</html>\r\n");
 
     ofxLibwebsockets::ServerOptions options = ofxLibwebsockets::defaultServerOptions();
     options.port = getPort();
     options.bUseSSL = false;
     server.addListener(this);
     bSetup = server.setup( options );
-
-    header+="HTTP/1.0 200 OK\n";
-    header+="Server: Apache/1.3.29 (Unix) PHP/4.3.4\n";
-    header+="Vary: Accept-Encoding,Cookie\n";
-    header+="Cache-Control: private, s-maxage=10, max-age=10, must-revalidate\n";
-    header+="Content-Language: en\n";
-    header+="Content-Type: text/html; charset=utf-8\n";
-    header+="X-Cache: HIT from www.ofxUIJquery.x\n";
-    header+="Connection: close\n\n";
 
     stringstream CSSbuffer;
     ifstream CSSfile(setStyle(TYPE).c_str());
@@ -131,7 +155,7 @@ void ofxUIJquery::setup(string ADRESS, int port, int port2, ofPoint bg, STYLE TY
         WEBSbuffer << WEBSfile.rdbuf();
     }
 
-    buffer+=header+"<html><head><title>ofxUIJquery</title>";
+    buffer+="<html><head><title>ofxUIJquery</title>";
     buffer+="<style>";
     buffer+=CSSbuffer.str();
     buffer+="* { font-family: \"Arial Verdana\", Arial, Verdana; }";
@@ -182,7 +206,7 @@ int ofxUIJquery::getPort(){
 
 void ofxUIJquery::init(){
     buffer+="</div></body>";
-    buffer+="</html>";
+    buffer+="</html>\r\n";
 }
 
 string ofxUIJquery::response(string value) {
@@ -357,9 +381,13 @@ void ofxUIJquery::exit(){
 void ofxUIJquery::update(){
     for(int i = 0; i < TCP.getLastID(); i++) {
         if( TCP.isClientConnected(i) && request == true) {
-            TCP.send(i, buffer);
-            ofLog()<<buffer;
-            ofLog()<<"CLOSE SOCKET BUFFER!\n\n\n";
+            string h = prepareHeader(strlen(buffer.c_str()));
+            string p = ofToString(h)+""+ofToString(buffer);
+
+            TCP.send(i, p);
+            log("ofxUIJquery.log",p);
+            ofLog()<<p;
+            ofLog()<<"\nCLOSE SOCKET BUFFER!\n";
             request=false;
             TCP.close();
         }
@@ -368,7 +396,7 @@ void ofxUIJquery::update(){
 
 void ofxUIJquery::upsocketUI(int port){
     TCP.setup(port);
-    TCP.setMessageDelimiter("</html>");
+    TCP.setMessageDelimiter("</html>\r\n");
 }
 
 void ofxUIJquery::setParameterBool(ofParameter<bool> &p, ofPoint bg, ofPoint color) {
@@ -396,7 +424,7 @@ void ofxUIJquery::setParameterChar(ofParameter<char> &p, ofPoint bg, ofPoint col
     buffer+="<p style=\"color:red\">Char</p>";
 }
 
-void ofxUIJquery::setParameterInt(ofParameter<int> &p, ofPoint bg, ofPoint color) {
+void ofxUIJquery::setParameterInt(ofParameter<int> &p, ofPoint bg, ofPoint color) { //bug
     intParam.push_back(&p);
     buffer+="<br><div class=\"d_div\" style=\"margin-left:10px;margin-top:10px;background:rgb("+ofToString(bg.x)+","+ofToString(bg.y)+","+ofToString(bg.z)+");padding:10px;\"><div id=\"titleInt\" style=\"color:rgb("+ofToString(color.x)+","+ofToString(color.y)+","+ofToString(color.z)+");\">";
     buffer+="<div style='float:left;'>&nbsp;&nbsp;"+p.getName()+":</div><div id='"+p.getName()+"_values'>0</div>";
@@ -441,7 +469,7 @@ void ofxUIJquery::setParameterVec3(ofParameter<ofVec3f> &p, ofPoint bg, ofPoint 
 void ofxUIJquery::setParameterVec4(ofParameter<ofVec4f> &p, ofPoint bg, ofPoint color) {
     vec4Param.push_back(&p);
     buffer+="<br><div class=\"d_div\" style=\"margin-left:10px;margin-top:10px;background:rgb("+ofToString(bg.x)+","+ofToString(bg.y)+","+ofToString(bg.z)+");padding:10px;\"><div id=\"titleVec4\" style=\"color:rgb("+ofToString(color.x)+","+ofToString(color.y)+","+ofToString(color.z)+");\">";
-    buffer+="<div style='float:left;'>&nbsp;&nbsp;"+p.getName()+":</div><div id='"+p.getName()+"_valuesX'>ofVec4f(0,</div><div style='float:left;' id='"+p.getName()+"_valuesY'>0,</div><div style='float:left;' id='"+p.getName()+"_valuesZ'>0,</div><div style='float:left;' id='"+p.getName()+"_valuesW'>0)</div>";
+    buffer+="<div style='float:left;'>&nbsp;&nbsp;"+p.getName()+":</div><div style='float:left;' id='"+p.getName()+"_valuesX'>ofVec4f(0,</div><div style='float:left;' id='"+p.getName()+"_valuesY'>0,</div><div style='float:left;' id='"+p.getName()+"_valuesZ'>0,</div><div style='float:left;' id='"+p.getName()+"_valuesW'>0)</div>";
     buffer+="</div><br>";
     buffer+="<div id='XsliderVec4"+ofToString(p.getName())+"'></div><br>";
     buffer+="<div id='YsliderVec4"+ofToString(p.getName())+"'></div><br>";

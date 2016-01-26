@@ -6,31 +6,51 @@ void ofApp::setup(){
     ofSetFrameRate(60);
     w=ofGetWidth();
     h=ofGetHeight();
-    font.loadFont("verdana.ttf",58);
+    font.load("verdana.ttf",58);
 
     gui.setup();
     gui.add(dark.set("dark",0.,0.,255.));
+    gui.add(testint.set("inttest",0,0,255));
     gui.add(dis.set("dis",ofVec2f(0),ofVec2f(0),ofVec2f(10)));
     gui.add(pos.set("position",ofVec3f(0),ofVec3f(0),ofVec3f(500)));
     gui.add(color.set("color",ofVec3f(0),ofVec3f(0),ofVec3f(255)));
+    gui.add(vec44.set("vec44",ofVec4f(0),ofVec4f(0),ofVec4f(255)));
     gui.add(disablelight.set("disablelight", true));
     gui.add(fullscreen.set("fullscreen", false));
     gui.add(info.set("info", ""));
     gui.setPosition(ofVec3f(10,65,0));
+    host.place(gui);//this test
 
     /*ofxUIjquery */
     PORT=80;
     PORTWS=9092;
-    STYLE c = VADER;
-    host.setup("172.16.200.230",       PORT,    PORTWS, ofPoint(186,65,25),    c);
+/*
+    BLITZER,
+    CUPERTINO,
+    DARK_HIVE,
+    FLICK,
+    LEFROG,
+    OVERCATS,
+    SMOOTHESS,
+    SUNNY,
+    VADER,
+    REDMOND
+*/
+    STYLE c = REDMOND;
+    host.setup("192.168.8.102",       PORT,    PORTWS, ofPoint(186,65,25),  c);
     host.setParameterBool(disablelight,ofPoint(242,47,136), ofPoint(50,205,50));
     host.setParameterBool(fullscreen,  ofPoint(242,47,136), ofPoint(204,0,56));
+    //host.setParameterInt(testint,      ofPoint(242,47,136), ofPoint(0,5,50)); //bug
     host.setParameterFloat(dark,       ofPoint(242,47,136), ofPoint(50,205,50));
     host.setParameterVec2(dis,         ofPoint(242,47,136), ofPoint(204,0,56));
     host.setParameterVec3(pos,         ofPoint(242,47,136), ofPoint(50,205,50));
     host.setParameterVec3(color,       ofPoint(242,47,136), ofPoint(204,0,56));
+    host.setParameterVec4(vec44,       ofPoint(242,47,136), ofPoint(24,110,56));
     host.setParameterString(info,      ofPoint(242,47,136), ofPoint(50,205,50));
     host.init();
+
+    host.prepareHeader(1);
+
     /**/
 
     rp.resize(40);
@@ -88,7 +108,6 @@ void ofApp::draw(){
         ofDrawSphere( rp[i].x+pos.get().x+50*dis.get().x, rp[i].y+pos.get().y+50, rp[i].z+pos.get().z, 25);
         ofRotateZ(ofGetFrameNum()/2);
         ofDrawCone( rp[i].x+pos.get().x-50*dis.get().x, rp[i].y+pos.get().y-50, rp[i].z+pos.get().z, 10, 10+100*dis.get().y );
-
         ofSetColor(color.get().x,color.get().y,color.get().z);
         ofDrawBox( rp[i].x+pos.get().x*dis.get().x, rp[i].y+pos.get().y*dis.get().y, rp[i].z+pos.get().z, 40+dis.get().y );
     }
